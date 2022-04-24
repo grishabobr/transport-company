@@ -1,48 +1,48 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, NavLink } from "react-router-dom";
+import Main from "./routes/Main";
+import Calculate from "./routes/Calculate";
+import CheckStatus from "./routes/CheckStatus";
+import Contacts from "./routes/Contacts";
 
 function App() {
   return (
     <div className="App">
-      <div class="header">
-        <a class="logo" href="index.html">
-            <img src="assets/logo.svg" class="logoSvg"/>
-            <div class="logoTitle">
+      <div className="header">
+        <a className="logo" href="/">
+            <img src="assets/logo.svg" className="logoSvg"/>
+            <div className="logoTitle">
                 Транспортная компания
             </div>
         </a>
-        <a class="menuItemCurrent" href="index.html">
-            Главная
-        </a>
-        <a class="menuItem" href="calculate.html">
-            Расчитать стоимость
-        </a>
-        <a class="menuItem" href="checkStatus.html">
-            Статус отправления
-        </a>
-        <a class="menuItem" href="contacts.html">
-            Контакты
-        </a>
+        <NavLink to="/" className={({isActive}) => isActive ? 'menuItemCurrent' : 'menuItem'}>
+          Главная
+        </NavLink>
+        <NavLink to="/calculate" className={({isActive}) => isActive ? 'menuItemCurrent' : 'menuItem'}>
+          Расчитать стоимость
+        </NavLink>
+        <NavLink to="/checkStatus" className={({isActive}) => isActive ? 'menuItemCurrent' : 'menuItem'}>
+          Статус отправления
+        </NavLink>
+        <NavLink to="/contacts" className={({isActive}) => isActive ? 'menuItemCurrent' : 'menuItem'}>
+          Контакты
+        </NavLink>
     </div>
 
 
-
-    <div class="content">
-        <div class="block">
-            <div class="blockText">
-                Оформляйте посылки онлайн по всей России
-            </div>
-            <a href="calculate.html" class="blockButtonLink">
-                <div class="blockButton">
-                    Отправить посылку
-                </div>
-            </a>
-        </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Main />} />
+      <Route path="/calculate" element={<Calculate />} />
+      <Route path="/checkStatus" element={<CheckStatus />} />
+      <Route path="/contacts" element={<Contacts />} />
+    </Routes>
 
 
-    
-    <div class="footer">
+  
+
+
+
+    <div className="footer">
         © Все права защищены, 2022
     </div>
     </div>
