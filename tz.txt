@@ -1,0 +1,61 @@
+1. ORDERS:      номер     | параметры | откуда_id | куда_id | расстояние | цена | дата доставки |
+2. ADDRESSES:   адреса_id | адрес     | индекс    |
+3. STATUSLOG:   номер     | дата      | статус    | 
+
+
+Запрос для цены:
+{
+  addressFrom: "",
+  addressTo: "",
+  length: 0,
+  width: 0,
+  height: 0,
+  weight: 0,
+  delicate: true/false
+}
+Ответ для цены:
+{
+  index: {
+    indexFrom: "000000",
+    indexTo: "000000"
+  },
+  distance: 0,
+  price: 0
+}
+
+
+Запрос для статуса: "000-000-000"
+Ответ для статуса:
+{
+  status: {
+    created: "00.00.0000",
+    processing: "00.00.0000",
+    transit: "00.00.0000",
+    delivered: "00.00.0000"
+  },
+  deliveryDate: "00.00.0000"
+}
+
+
+Запрос для заказа: 
+{
+  addressFrom: {
+    address: "",
+    index: ""
+  },
+  addressTo: {
+    address: "000000",
+    index: "000000"
+  },
+  parameters: {
+    length: 0,
+    width: 0,
+    height: 0,
+    weight: 0,
+    delicate: true/false
+  },
+  distance: 0,
+  price: 0,
+  deliveryDate: "00.00.0000"
+}
+Ответ для заказа: "000-000-000"

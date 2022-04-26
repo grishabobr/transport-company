@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Main() {
     return(
         <div className="content">
@@ -5,11 +7,11 @@ export default function Main() {
                 < div className="blockText" >
                     Оформляйте посылки онлайн по всей России
                 </div>
-                <a href="calculate.html" className="blockButtonLink">
+                <Link to="/calculate" className="blockButtonLink">
                     <div className="blockButton">
                         Отправить посылку
                     </div>
-                </a>
+                </Link>
             </div>
         </div>
     );
