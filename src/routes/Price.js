@@ -1,9 +1,39 @@
 import { useAtom } from 'jotai';
 import { orderInfoAtom } from '../AtomHooks/orderInfoAtom';
 import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react'
 
 export default function Price() {
     const [orderInfo, setOrderInfo] = useAtom(orderInfoAtom);
+
+    const [pr, setPr] = useState(
+        {
+            index: {
+                indexFrom: "000000",
+                indexTo: "000000"
+            },
+            distance: 0,
+            price: 0
+        }
+    );
+
+
+    useEffect(() => {
+        // POST request using fetch inside useEffect React hook
+        //console.log('trying')
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderInfo)
+        };
+        fetch('/tryp', requestOptions)
+            .then(response => response.json())
+            .then(data => setPr(data));
+
+        // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    }, []);
 
     return(
         <div className="content">
@@ -11,13 +41,13 @@ export default function Price() {
         <div className="routeBlock">
             <div className="blockCenter">
                 <img src="assets/routeline.svg" className="routeLine"/>
-                <div className="distance">634 км</div>
+                <div className="distance">{pr.distance} км</div>
                 <div className="routeInfo">
                     <div className="statusDateHolder">
-                        <div className="zipcode">123456</div>
+                        <div className="zipcode">{pr.index.indexFrom}</div>
                     </div>
                     <div className="statusDateHolder">
-                        <div className="zipcode">123456</div>
+                        <div className="zipcode">{pr.index.indexTo}</div>
                     </div>
                 </div>
             </div>
@@ -45,7 +75,7 @@ export default function Price() {
         <div className="blockCenter">
             <div className="priceLine">
                 <div className="pricePrefix">Стоимость составит:</div>
-                <div className="price">1247 ₽</div>
+                <div className="price">{pr.price} ₽</div>
             </div>
             <Link to="/order" className="blockButtonLink2">
                 <div className="blockButton">
