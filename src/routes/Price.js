@@ -1,26 +1,16 @@
 import { useAtom } from 'jotai';
 import { orderInfoAtom } from '../AtomHooks/orderInfoAtom';
+import { priceInfoAtom } from '../AtomHooks/priceInfoAtom';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
 
 export default function Price() {
     const [orderInfo, setOrderInfo] = useAtom(orderInfoAtom);
 
-    const [pr, setPr] = useState(
-        {
-            index: {
-                indexFrom: "000000",
-                indexTo: "000000"
-            },
-            distance: 0,
-            price: 0
-        }
-    );
+    const [priceInfo, setPriceInfo] = useAtom(priceInfoAtom);
 
 
     useEffect(() => {
-        // POST request using fetch inside useEffect React hook
-        //console.log('trying')
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -28,11 +18,10 @@ export default function Price() {
             },
             body: JSON.stringify(orderInfo)
         };
-        fetch('/tryp', requestOptions)
+        fetch('/getPrice', requestOptions)
             .then(response => response.json())
-            .then(data => setPr(data));
+            .then(data => setPriceInfo(data));
 
-        // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
 
     return(
@@ -41,13 +30,13 @@ export default function Price() {
         <div className="routeBlock">
             <div className="blockCenter">
                 <img src="assets/routeline.svg" className="routeLine"/>
-                <div className="distance">{pr.distance} км</div>
+                <div className="distance">{priceInfo.distance} км</div>
                 <div className="routeInfo">
                     <div className="statusDateHolder">
-                        <div className="zipcode">{pr.index.indexFrom}</div>
+                        <div className="zipcode">{priceInfo.index.indexFrom}</div>
                     </div>
                     <div className="statusDateHolder">
-                        <div className="zipcode">{pr.index.indexTo}</div>
+                        <div className="zipcode">{priceInfo.index.indexTo}</div>
                     </div>
                 </div>
             </div>
@@ -70,12 +59,15 @@ export default function Price() {
                 <div className="parcelInfoItem">
                     Хрупкая посылка: {orderInfo.Delicate ? 'да' : 'нет'}
                 </div>
+                <div className="parcelInfoItem">
+                    Дата доставки: {priceInfo.deliveryDate}
+                </div>
             </div>
         </div>
         <div className="blockCenter">
             <div className="priceLine">
                 <div className="pricePrefix">Стоимость составит:</div>
-                <div className="price">{pr.price} ₽</div>
+                <div className="price">{priceInfo.price} ₽</div>
             </div>
             <Link to="/order" className="blockButtonLink2">
                 <div className="blockButton">
