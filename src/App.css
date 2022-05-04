@@ -28,7 +28,10 @@
   --string-bg: #212322;
   --placeholder: #434343;
   --block-shadow: rgba(32, 39, 32, 0.2);
-  --timeline-url: url('../public/assets/timelineDark.svg');
+  --timeline-created-url: url('../public/assets/timelineCreatedDark.svg');
+  --timeline-processing-url: url('../public/assets/timelineProcessingDark.svg');
+  --timeline-transit-url: url('../public/assets/timelineTransitDark.svg');
+  --timeline-delivered-url: url('../public/assets/timelineDeliveredDark.svg');
 
 }
 
@@ -352,9 +355,27 @@ a {
   color: var(--inactive-green);
 }
 
-.statusLine {
+.statusLineCreated {
   width: 714px;
-  background-image: var(--timeline-url);
+  background-image: var(--timeline-created-url);
+  height: 30px;
+}
+
+.statusLineProcessing {
+  width: 714px;
+  background-image: var(--timeline-processing-url);
+  height: 30px;
+}
+
+.statusLineTransit {
+  width: 714px;
+  background-image: var(--timeline-transit-url);
+  height: 30px;
+}
+
+.statusLineDelivered {
+  width: 714px;
+  background-image: var(--timeline-delivered-url);
   height: 30px;
 }
 
