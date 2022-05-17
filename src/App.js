@@ -7,7 +7,7 @@ import Contacts from "./routes/Contacts";
 import Status from "./routes/Status";
 import Price from "./routes/Price";
 import Order from "./routes/Order";
-import Error404 from "./routes/error404";
+import Error404 from "./routes/Error404";
 import Header from "./pageStructure/Header";
 import Footer from "./pageStructure/Footer";
 

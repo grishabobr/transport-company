@@ -3,8 +3,11 @@ import { orderInfoAtom } from '../AtomHooks/orderInfoAtom';
 import { priceInfoAtom } from '../AtomHooks/priceInfoAtom';
 import { orderNumberAtom } from '../AtomHooks/orderNumberAtom';
 import { useEffect, useState } from 'react'
+import Loading from '../pageStructure/Loading'
 
 export default function Order() {
+
+    const [isLoading, setIsLoading] = useState(true);
 
     const [orderInfo, setOrderInfo] = useAtom(orderInfoAtom);
     const [priceInfo, setPriceInfo] = useAtom(priceInfoAtom);
@@ -39,24 +42,34 @@ export default function Order() {
         };
         fetch('/createOrder', requestOptions)
             .then(response => response.json())
-            .then(data => setOrderNumber(data.orderNumber));
+            .then(data => {
+                setOrderNumber(data.orderNumber);
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1000);
+            });
 
     }, []);
 
     return(
         <div className="content">
-        <h1 className="pageTitle">Заказ оформлен</h1>
-        <div className="orderNumberBlock">
-            <div className="orderNumberPrefix">
-                Номер вашего заказа:
-            </div>
-            <div className="orderNumberLine">
-                <img src="assets/numberIcon.svg" className="orderNumberIcon"/>
-                <div className="orderNumber">
-                    {orderNumber}
+            <h1 className="pageTitle">Заказ оформлен</h1>
+            <div className="content">
+                <div className="orderNumberBlock">
+                    <div className="orderNumberPrefix">
+                        Номер вашего заказа:
+                    </div>
+                    <div className="orderNumberLine">
+                        <img src="assets/numberIcon.svg" className="orderNumberIcon"/>
+                        {isLoading
+                            ?<div className='orderNumberPlaceholder'></div>
+                            :<div className="orderNumber">
+                                {orderNumber}
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     );
 }

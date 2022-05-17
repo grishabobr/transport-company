@@ -2,8 +2,11 @@ import { useAtom } from 'jotai';
 import { orderNumberAtom } from '../AtomHooks/orderNumberAtom';
 import { statusInfoAtom } from '../AtomHooks/statusInfoAtom';
 import { useEffect, useState } from 'react'
+import Loading from '../pageStructure/Loading'
 
 export default function Status() {
+
+    const [isLoading, setIsLoading] = useState(true);
 
     const [StatusLineClass, setStatusLineClass] = useState('statusLineDelivered');
 
@@ -29,7 +32,10 @@ export default function Status() {
         };
         fetch('/statusCheck', requestOptions)
             .then(response => response.json())
-            .then(data => setStatusInfo(data));
+            .then(data => {
+                setStatusInfo(data);
+                setIsLoading(false);
+            });
 
     }, []);
 
@@ -43,64 +49,69 @@ export default function Status() {
     return(
         <div className="content">
             <h1 className="pageTitle">Статус отправления {orderNumber}</h1>
-            <div className="statusBlock">
-                <div className="blockCenter">
-                    <div className="statusInfo">
-                        <div className="statusTitleHolder">
-                            <div className = {
-                                (statusInfo.status.created == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
-                                    Создано
+            {isLoading
+                ?<Loading/>
+                :<div className='content'>
+                    <div className="statusBlock">
+                        <div className="blockCenter">
+                            <div className="statusInfo">
+                                <div className="statusTitleHolder">
+                                    <div className = {
+                                        (statusInfo.status.created == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
+                                            Создано
+                                    </div>
+                                </div>
+                                <div className="statusTitleHolder">
+                                    <div className = {
+                                        (statusInfo.status.processing == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
+                                            В обработке
+                                    </div>
+                                </div>
+                                <div className="statusTitleHolder">
+                                    <div className = {
+                                        (statusInfo.status.transit == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
+                                            В пути
+                                    </div>
+                                </div>
+                                <div className="statusTitleHolder">
+                                    <div className = {
+                                        (statusInfo.status.delivered == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
+                                            Доставлено
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={StatusLineClass}></div>
+                            <div className="statusInfo">
+                                <div className="statusDateHolder">
+                                    <div className="statusTitlePassive">
+                                        {(statusInfo.status.created == '0000-00-00') ? '' : statusInfo.status.created}
+                                    </div>
+                                </div>
+                                <div className="statusDateHolder">
+                                    <div className="statusTitlePassive">
+                                        {(statusInfo.status.processing == '0000-00-00') ? '' : statusInfo.status.processing}
+                                    </div>
+                                </div>
+                                <div className="statusDateHolder">
+                                    <div className="statusTitlePassive">
+                                        {(statusInfo.status.transit == '0000-00-00') ? '' : statusInfo.status.transit}
+                                    </div>
+                                </div>
+                                <div className="statusDateHolder">
+                                    <div className="statusTitlePassive">
+                                        {(statusInfo.status.delivered == '0000-00-00') ? '' : statusInfo.status.delivered}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="statusTitleHolder">
-                            <div className = {
-                                (statusInfo.status.processing == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
-                                    В обработке
-                            </div>
-                        </div>
-                        <div className="statusTitleHolder">
-                            <div className = {
-                                (statusInfo.status.transit == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
-                                    В пути
-                            </div>
-                        </div>
-                        <div className="statusTitleHolder">
-                            <div className = {
-                                (statusInfo.status.delivered == '0000-00-00') ? "statusTitlePassive" : "statusTitleActive"} >
-                                    Доставлено
-                            </div>
+                        <div className="statusdates">
                         </div>
                     </div>
-                    <div className={StatusLineClass}></div>
-                    <div className="statusInfo">
-                        <div className="statusDateHolder">
-                            <div className="statusTitlePassive">
-                                {(statusInfo.status.created == '0000-00-00') ? '' : statusInfo.status.created}
-                            </div>
-                        </div>
-                        <div className="statusDateHolder">
-                            <div className="statusTitlePassive">
-                                {(statusInfo.status.processing == '0000-00-00') ? '' : statusInfo.status.processing}
-                            </div>
-                        </div>
-                        <div className="statusDateHolder">
-                            <div className="statusTitlePassive">
-                                {(statusInfo.status.transit == '0000-00-00') ? '' : statusInfo.status.transit}
-                            </div>
-                        </div>
-                        <div className="statusDateHolder">
-                            <div className="statusTitlePassive">
-                                {(statusInfo.status.delivered == '0000-00-00') ? '' : statusInfo.status.delivered}
-                            </div>
-                        </div>
+                    <div className="predictionDate">
+                        Предполагаемая дата доставки: {statusInfo.deliveryDate}
                     </div>
                 </div>
-                <div className="statusdates">
-                </div>
-            </div>
-            <div className="predictionDate">
-                Предполагаемая дата доставки: {statusInfo.deliveryDate}
-            </div>
+            }
         </div>
     );
 }
