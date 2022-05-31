@@ -272,6 +272,7 @@ a {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50% 50%;
+  cursor: pointer;
 }
 
 .checkbox:checked+label::before {
@@ -549,7 +550,7 @@ a {
 }
 
 .orderNumberPlaceholder {
-  width: 203px;
+  width: 225px;
   height: 39px;
   margin-left: 11px;
   margin-top: 4.9px;

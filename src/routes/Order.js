@@ -3,7 +3,6 @@ import { orderInfoAtom } from '../AtomHooks/orderInfoAtom';
 import { priceInfoAtom } from '../AtomHooks/priceInfoAtom';
 import { orderNumberAtom } from '../AtomHooks/orderNumberAtom';
 import { useEffect, useState } from 'react'
-import Loading from '../pageStructure/Loading'
 
 export default function Order() {
 
@@ -12,6 +11,15 @@ export default function Order() {
     const [orderInfo, setOrderInfo] = useAtom(orderInfoAtom);
     const [priceInfo, setPriceInfo] = useAtom(priceInfoAtom);
     const [orderNumber, setOrderNumber] = useAtom(orderNumberAtom);
+
+    function formatNumber(num){
+        let res = '';
+        for (let i=0; i<num.length; i++){
+            res+=num[i]
+            if ((i + 1) % 3 == 0 && i != num.length - 1) res += '-';
+        }
+        return res;
+    }
 
     useEffect(() => {
         const requestOptions = {
@@ -43,7 +51,7 @@ export default function Order() {
         fetch('/createOrder', requestOptions)
             .then(response => response.json())
             .then(data => {
-                setOrderNumber(data.orderNumber);
+                setOrderNumber(formatNumber(data.orderNumber + ''));
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 1000);

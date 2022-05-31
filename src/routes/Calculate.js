@@ -45,7 +45,7 @@ export default function Calculate() {
                 widthRef.current.value,
                 heightRef.current.value,
                 weightRef.current.value
-            ].reduce((partialSum, a) => partialSum + a, "").Length >= 6) {
+            ].reduce((partialSum, a) => partialSum + a, "").length >= 6) {
             setOrderInfo({
                 From: fromRef.current.value,
                 To: toRef.current.value,
